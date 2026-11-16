@@ -40,8 +40,8 @@ Use the [MXToolbox SuperTool](https://mxtoolbox.com/SuperTool.aspx) lookup box f
 
 | Lookup input | Result on 16 November 2026 |
 | --- | --- |
-| `spf:medequip-invoices.com` | No SPF record found for the envelope sender domain. |
-| `dmarc:medequip-solutions.com` | MXToolbox reported a valid DMARC record with `p=quarantine`, `adkim=r`, and `aspf=r`. Both alignment settings were relaxed. |
+| `spf:medequip-invoices.com` | No SPF record found for the envelope sender domain. [Screenshot](evidence/mxtoolbox-spf.webp) |
+| `dmarc:medequip-solutions.com` | MXToolbox reported a valid DMARC record with `p=quarantine`, `adkim=r`, and `aspf=r`. Both alignment settings were relaxed. [Screenshot](evidence/mxtoolbox-dmarc.webp) |
 
 The DNS results describe the records observed in November 2026. The authentication results describe what the September 2024 training header reported. The header provides no final quarantine or delivery event.
 
@@ -53,13 +53,13 @@ Use [VirusTotal Search](https://www.virustotal.com/gui/home/search) to look up *
 
 | Where it appeared | Defanged hostname | VirusTotal result on 16 November 2026 |
 | --- | --- | --- |
-| HTML payment button | `medequip-billing-review.thebandalisty[.]com` | **8/92** vendors flagged the host. Six labelled it phishing and two labelled it malicious. |
-| Plain-text payment link | `medequip-billing-review.secure-invoicepay[.]com` | **0/92** vendors flagged the host. The report displayed multiple unrated vendors. Its safety remains unverified. |
+| HTML payment button | `medequip-billing-review.thebandalisty[.]com` | **8/92** vendors flagged the host. Six labelled it phishing and two labelled it malicious. [Screenshot](evidence/virustotal-html-payment-host.webp) |
+| Plain-text payment link | `medequip-billing-review.secure-invoicepay[.]com` | **0/92** vendors flagged the host. The report displayed multiple unrated vendors. Its safety remains unverified. [Screenshot](evidence/virustotal-plaintext-payment-host.webp) |
 | Hidden tracking image | `thebandalisty[.]com` | Found in the HTML source at `/o/MSH20240912.gif`. Image retrieval remains unverified. |
 
 The message offered a PDF, while the MIME attachment was named `Invoice_MSH-2024-0912.html` and declared as `text/html`. In Notepad, locate the part marked `Content-Disposition: attachment`. Static decoding of that part yielded an HTML file with a script tag containing only a training placeholder comment.
 
-Search the decoded attachment's **SHA-256** in VirusTotal using the fingerprint below. The lookup displayed zero matching comments and yielded no file detection result.
+Search the decoded attachment's **SHA-256** in VirusTotal using the fingerprint below. The lookup displayed zero matching comments and yielded no file detection result. [Screenshot](evidence/virustotal-attachment-hash.webp)
 
 ```text
 0bf21e8fa749d22699d9333ef244710492a689e15c5ea3f34537c64c319f575c
@@ -93,6 +93,45 @@ Use mail gateway searches or alerts for the payment hosts, attachment hash, invo
 ### 7. Report and hand off
 
 > **Analyst handoff.** Classify invoice MSH-2024-0912 as simulated vendor-invoice phishing. The sample reports failed email authentication, uses different payment hosts in the plain-text and HTML bodies, and presents an HTML attachment as a PDF. VirusTotal reported eight vendor detections for the HTML payment-button host. Final delivery, user interaction, financial loss, and data exposure remain unverified. In a live case, prioritise the mail trace and confirm payment status with Accounts Payable.
+
+## Investigation screenshots
+
+Captured on 16 November 2026. Expand a screenshot to review the lookup and its result.
+
+<details>
+<summary>MXToolbox SPF lookup</summary>
+
+![MXToolbox SPF lookup](evidence/mxtoolbox-spf.webp)
+
+</details>
+
+<details>
+<summary>MXToolbox DMARC lookup</summary>
+
+![MXToolbox DMARC lookup](evidence/mxtoolbox-dmarc.webp)
+
+</details>
+
+<details>
+<summary>VirusTotal HTML payment host report</summary>
+
+![VirusTotal HTML payment host report](evidence/virustotal-html-payment-host.webp)
+
+</details>
+
+<details>
+<summary>VirusTotal plain-text payment host report</summary>
+
+![VirusTotal plain-text payment host report](evidence/virustotal-plaintext-payment-host.webp)
+
+</details>
+
+<details>
+<summary>VirusTotal attachment hash search</summary>
+
+![VirusTotal attachment hash search](evidence/virustotal-attachment-hash.webp)
+
+</details>
 
 ## MITRE ATT&CK mapping
 
