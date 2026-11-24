@@ -15,6 +15,10 @@ The training email posed as a medical supplies vendor and demanded **USD 18,740 
 
 The scenario illustrates the risk of fraudulent payments and disruption to critical healthcare supplies. If a similar message led to credential compromise in a live environment, the SOC would also assess whether the affected account could access patient portals, electronic health records, or other sensitive systems.
 
+**Triage summary.** Classify the message as simulated vendor-invoice phishing. Failed email authentication, mismatched payment destinations and an HTML attachment presented as a PDF support that verdict. Delivery and user impact remain unverified. For a live case, prioritise the mail trace and confirm payment status with Accounts Payable.
+
+[Read the analyst handoff](#7-report-and-hand-off) · [View the lookup screenshots](#investigation-screenshots)
+
 ## Investigation walkthrough
 
 ### 1. Review the original email
